@@ -1,22 +1,13 @@
 package com.lyz.rainbow.model.impl;
 
-import com.google.gson.Gson;
 import com.lyz.rainbow.Constant;
-import com.lyz.rainbow.data.bean.Essay;
+import com.lyz.rainbow.data.bean.JHEssay;
 import com.lyz.rainbow.model.EssayModel;
 import com.lyz.rainbow.remote.RetrofitManager;
 import com.lyz.rainbow.remote.RetrofitService;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,30 +27,14 @@ public class EssayModelImpl implements EssayModel {
 
         String today = (month + 1) + "/" + day;
 
-        RetrofitManager.getInstance().create(RetrofitService.class).getEssay(Constant.JHKey, today).enqueue(new Callback<ResponseBody>() {
+        RetrofitManager.getInstance().create(RetrofitService.class).getEssay(Constant.JHKey, today).enqueue(new Callback<JHEssay>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                try {
-                    JSONObject jsonObject = new JSONObject(response.body().string());
-                    String result = jsonObject.getString("result");
-
-                    JSONArray jsonArray = new JSONArray(result);
-                    List<Essay> essays = new ArrayList<>();
-
-                    Gson gson = new Gson();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        essays.add(gson.fromJson(String.valueOf(jsonArray.getJSONObject(i)), Essay.class));
-                    }
-                    listener.onSuccess(essays);
-
-                } catch (JSONException | IOException e) {
-                    e.printStackTrace();
-                }
+            public void onResponse(Call<JHEssay> call, Response<JHEssay> response) {
+                listener.onSuccess(response.body().getEssays());
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<JHEssay> call, Throwable t) {
                 listener.onFailure();
             }
         });

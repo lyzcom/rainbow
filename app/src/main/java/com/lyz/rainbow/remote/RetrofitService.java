@@ -1,6 +1,7 @@
 package com.lyz.rainbow.remote;
 
-import okhttp3.ResponseBody;
+import com.lyz.rainbow.data.bean.JHEssay;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -12,6 +13,6 @@ import retrofit2.http.Query;
 public interface RetrofitService {
 
     @GET("todayOnhistory/queryEvent.php")
-    Call<ResponseBody> getEssay(@Query("key") String key, @Query("date") String date);
+    Call<JHEssay> getEssay(@Query("key") String key, @Query("date") String date);
 
 }

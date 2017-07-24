@@ -1,13 +1,20 @@
 package com.lyz.rainbow.data.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by ring on 17/7/17.
  */
 
 public class Essay {
+
+    @SerializedName("day")
     private String day;
+    @SerializedName("date")
     private String date;
+    @SerializedName("title")
     private String title;
+    @SerializedName("e_id")
     private int e_id;
 
     public String getDay() {
